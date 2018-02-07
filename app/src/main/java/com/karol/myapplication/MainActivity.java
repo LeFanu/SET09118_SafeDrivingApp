@@ -1,6 +1,8 @@
 package com.karol.myapplication;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.content.res.Resources;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.support.v7.app.AppCompatActivity;
@@ -22,6 +24,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        TextView drivingStatusIndicator = (TextView) findViewById(R.id.driving_status_indicator);
+        drivingStatusIndicator.setText("OK");
+        drivingStatusIndicator.setTextColor(getResources().getColor(R.color.driving_ok));
+
+
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         List<Sensor> deviceSensors = sensorManager.getSensorList(Sensor.TYPE_ALL);
 

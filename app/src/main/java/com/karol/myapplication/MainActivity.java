@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity  {
 
         speedTextbox = (TextView) findViewById(R.id.speedText);
 
+<<<<<<< HEAD
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -163,6 +164,24 @@ mFusedLocationClient.getLastLocation()
 
         }
     };
+=======
+//        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+//        List<Sensor> deviceSensors = sensorManager.getSensorList(Sensor.TYPE_ALL);
+//
+//
+//        if (sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT) != null)
+//        {
+//            lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
+//        }
+//        else
+//        {
+//            //Snackbar.make(view, "Sorry no light lightSensor", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+//        }
+//        lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
+//        sensorManager.registerListener(mSensorEventListener, lightSensor, SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
+>>>>>>> 6314145b20c7fddb933fbd7223549a8bb783a861
 
     /*private boolean isGooglePlayServicesAvailable() {
         int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);

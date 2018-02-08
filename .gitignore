@@ -10,5 +10,9 @@
 .idea/
 build.gradle
 gradle/
+<<<<<<< HEAD
 .idea/misc.xml
 .idea/modules.xml
+=======
+.idea/compiler.xml .idea/copyright .idea/gradle.xml .idea/libraries .idea/misc.xml .idea/modules.xml .idea/runConfigurations.xml .idea/vcs.xml .idea/workspace.xml
+>>>>>>> 6314145b20c7fddb933fbd7223549a8bb783a861

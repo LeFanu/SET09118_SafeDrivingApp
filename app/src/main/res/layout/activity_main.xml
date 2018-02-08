@@ -18,7 +18,7 @@
     <TextView
         android:id="@+id/driving_status_indicator"
         style="@style/MyHeadingStyle"
-        android:text="@string/driving_status"
+        android:text="OK"
         android:layout_toRightOf="@+id/driving_status"
         />
 
@@ -29,20 +29,192 @@
         app:srcCompat="@drawable/smiley"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        android:layout_marginLeft="30dp"
+        android:layout_marginLeft="25dp"
         android:layout_below="@+id/driving_status"
         android:layout_alignParentStart="true"
         />
 
-    <TextView
-        android:id="@+id/lightText"
-        android:layout_width="wrap_content"
+
+
+    <RelativeLayout
+        android:id="@+id/current_status_section"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Light Sensor Display"
+        android:background="@color/status_background"
         android:layout_below="@+id/driving_good"
-        android:layout_alignParentStart="true"
+        android:layout_marginTop="20sp"
+        android:layout_marginLeft="20sp"
+        android:layout_marginRight="20sp"
+        android:padding="10sp"
+        android:orientation="horizontal">
+
+        <!--Speed indicator-->
+        <TextView
+            style="@style/StatusIndicators"
+            android:id="@+id/speed"
+            android:text="@string/speed"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
         />
 
+        <TextView
+            style="@style/StatusIndicators"
+            android:id="@+id/speed_value"
+            android:text="0"
+            android:layout_toRightOf="@+id/speed"
+            android:layout_centerInParent="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="80sp"
+            android:textColor="@color/driving_ok"
+        />
+        <TextView
+            style="@style/StatusIndicators"
+            android:layout_marginLeft="15sp"
+            android:id="@+id/speed_measures"
+            android:text="@string/speed_measures"
+            android:layout_toRightOf="@+id/speed_value"
+        />
+
+        <!--Visibillity Indicator-->
+        <TextView
+            style="@style/StatusIndicators"
+            android:id="@+id/visibility"
+            android:text="@string/visibility"
+            android:layout_below="@+id/speed"
+
+            />
+
+        <TextView
+            style="@style/StatusIndicators"
+            android:layout_below="@+id/speed"
+            android:id="@+id/visibility_value"
+            android:text="0"
+            android:layout_toRightOf="@+id/speed"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="80sp"
+            android:textColor="@color/driving_ok"
+            />
+
+        <!--Noise Level-->
+
+        <TextView
+            style="@style/StatusIndicators"
+            android:id="@+id/noise_level"
+            android:text="@string/noise_level"
+            android:layout_below="@+id/visibility"
+
+            />
+
+        <TextView
+            style="@style/StatusIndicators"
+            android:layout_below="@+id/visibility"
+            android:id="@+id/noise_value"
+            android:text="0"
+            android:layout_toRightOf="@+id/speed"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="80sp"
+            android:textColor="@color/driving_ok"
+            />
+        <TextView
+            style="@style/StatusIndicators"
+            android:layout_marginLeft="15sp"
+            android:id="@+id/noise_measures"
+            android:text="dB"
+            android:layout_below="@+id/visibility"
+            android:layout_toRightOf="@+id/speed_value"
+            />
+
+        <!--Driving Time-->
+
+        <TextView
+            style="@style/StatusIndicators"
+            android:id="@+id/driving_time"
+            android:text="@string/driving_time"
+            android:layout_below="@+id/noise_level"
+
+            />
+
+        <TextView
+            style="@style/StatusIndicators"
+            android:layout_below="@+id/noise_level"
+            android:id="@+id/driving_hours"
+            android:text="00"
+            android:layout_toRightOf="@+id/driving_time"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="20sp"
+            android:textColor="@color/driving_ok"
+            />
+        <TextView
+            style="@style/StatusIndicators"
+            android:layout_below="@+id/noise_level"
+            android:id="@+id/collon"
+            android:text=" : "
+            android:layout_toRightOf="@+id/driving_hours"
+            android:layout_centerInParent="true"
+
+            />
+        <TextView
+            style="@style/StatusIndicators"
+            android:id="@+id/driving_minutes"
+            android:text="00"
+            android:layout_below="@+id/noise_level"
+            android:layout_toRightOf="@+id/collon"
+            android:textColor="@color/driving_ok"
+            />
+    </RelativeLayout>
+    <!--END of Status Layout-->
+
+    <!--NOTOFICATIONS Layout-->
+    <RelativeLayout
+        android:id="@+id/notifications_section"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/notifications_background"
+        android:layout_below="@+id/current_status_section"
+        android:layout_marginTop="20sp"
+        android:paddingBottom="20sp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/warning_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:text="@string/reminder"
+            android:layout_centerInParent="true"
+            android:textAlignment="center"
+            android:background="@color/warning"
+            android:padding="10sp"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold"
+            android:textSize="15sp"
+        />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/text_received"
+            android:layout_below="@+id/warning_message"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:text="@string/text_messages_received"
+            android:textStyle="bold"
+            android:textSize="15dp"
+        />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/text_received_value"
+            android:layout_below="@+id/warning_message"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="40dp"
+            android:text="0"
+            android:textStyle="bold"
+            android:textSize="15dp"
+            android:layout_toRightOf="@+id/text_received"
+        />
+
+<<<<<<< HEAD
     <TextView
         android:id="@+id/speedText"
         android:layout_width="wrap_content"
@@ -51,6 +223,35 @@
         android:layout_below="@+id/lightText"
         android:layout_alignParentStart="true"
         />
+=======
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/missed_calls"
+            android:layout_below="@+id/text_received"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:text="@string/missed_calls"
+            android:textStyle="bold"
+            android:textSize="15dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/missed_calls_value"
+            android:layout_below="@+id/text_received"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="40dp"
+            android:text="0"
+            android:textStyle="bold"
+            android:textSize="15dp"
+            android:layout_toRightOf="@+id/text_received"
+            />
+
+    </RelativeLayout>
+
+>>>>>>> 6314145b20c7fddb933fbd7223549a8bb783a861
 
 </RelativeLayout>
 </ScrollView>

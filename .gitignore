@@ -10,3 +10,4 @@
 .idea/
 build.gradle
 gradle/
+.idea/compiler.xml .idea/copyright .idea/gradle.xml .idea/libraries .idea/misc.xml .idea/modules.xml .idea/runConfigurations.xml .idea/vcs.xml .idea/workspace.xml

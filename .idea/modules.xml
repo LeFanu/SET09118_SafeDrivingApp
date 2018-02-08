@@ -3,9 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/SafeDrivingApp.iml" filepath="$PROJECT_DIR$/SafeDrivingApp.iml" />
-      <module fileurl="file://C:\Users\alexi_000\Documents\Napier\Mobile and sensing systems\Project2\project_repository\SET09118_SafeDrivingApp\SafeDrivingApp.iml" filepath="C:\Users\alexi_000\Documents\Napier\Mobile and sensing systems\Project2\project_repository\SET09118_SafeDrivingApp\SafeDrivingApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://C:\Users\alexi_000\Documents\Napier\Mobile and sensing systems\Project2\project_repository\SET09118_SafeDrivingApp\app\app.iml" filepath="C:\Users\alexi_000\Documents\Napier\Mobile and sensing systems\Project2\project_repository\SET09118_SafeDrivingApp\app\app.iml" />
     </modules>
   </component>
 </project>

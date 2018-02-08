@@ -8,4 +8,7 @@
     <color name="driving_bad">#ff0000</color>
     <color name="normal_text">#232323</color>
     <color name="main_background">#cccccb</color>
+    <color name="status_background">#95c8ff</color>
+    <color name="notifications_background">#9e9d9f</color>
+    <color name="warning">#f5ff44</color>
 </resources>

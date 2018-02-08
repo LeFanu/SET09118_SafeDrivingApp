@@ -9,7 +9,7 @@
     <string name="noise_level">Noise level </string>
     <string name="driving_time">Driving Time </string>
     <string name="notifications">Notifications: </string>
-    <string name="sms_received">Text messages received: </string>
-    <string name="missed_calls">Missed calls: </string>
-
+    <string name="missed_calls">MISSED CALLS: </string>
+    <string name="reminder">!!! Remeber !!! \n Drive Safe \n Stop if you want to use your phone!!!</string>
+    <string name="text_messages_received">TEXT MESSAGES RECEIVED:</string>
 </resources>

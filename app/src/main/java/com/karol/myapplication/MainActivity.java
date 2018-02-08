@@ -43,9 +43,9 @@ public class MainActivity extends AppCompatActivity  {
         drivingStatusIndicator.setText("OK");
         drivingStatusIndicator.setTextColor(getResources().getColor(R.color.driving_ok));
 
-        speedTextbox = (TextView) findViewById(R.id.speedText);
+        speedTextbox = (TextView) findViewById(R.id.speed_value);
 
-<<<<<<< HEAD
+
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -63,16 +63,16 @@ public class MainActivity extends AppCompatActivity  {
 
         //List<Sensor> deviceSensors = sensorManager.getSensorList(Sensor.TYPE_ALL);
 
-
-        if (sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT) != null)
-        {
-            lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
-            sensorManager.registerListener(mSensorEventListener, lightSensor, SensorManager.SENSOR_DELAY_NORMAL);
-        }
-        else
-        {
-            Toast.makeText(this.getApplicationContext(),"No light sensor on this device",Toast.LENGTH_SHORT);
-        }
+//
+//        if (sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT) != null)
+//        {
+//            lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
+//            sensorManager.registerListener(mSensorEventListener, lightSensor, SensorManager.SENSOR_DELAY_NORMAL);
+//        }
+//        else
+//        {
+//            Toast.makeText(this.getApplicationContext(),"No light sensor on this device",Toast.LENGTH_SHORT);
+//        }
 
 }
 
@@ -148,23 +148,7 @@ mFusedLocationClient.getLastLocation()
     }*/
 
 
-    TextView textbox ;
-    private SensorEventListener mSensorEventListener = new SensorEventListener() {
-        @Override
-        public final void onSensorChanged(SensorEvent event) {
-            float lux = event.values[0];
-            textbox = (TextView) findViewById(R.id.lightText);
-            // Do something with this sensor value
-            //Toast.makeText(getApplicationContext(), "light is  " + lux, Toast.LENGTH_SHORT).show();
-            textbox.setText("Light Sensor value is: " + lux);
-        }
 
-        @Override
-        public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
-        }
-    };
-=======
 //        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 //        List<Sensor> deviceSensors = sensorManager.getSensorList(Sensor.TYPE_ALL);
 //
@@ -181,7 +165,7 @@ mFusedLocationClient.getLastLocation()
 //        sensorManager.registerListener(mSensorEventListener, lightSensor, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
->>>>>>> 6314145b20c7fddb933fbd7223549a8bb783a861
+
 
     /*private boolean isGooglePlayServicesAvailable() {
         int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);

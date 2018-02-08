@@ -10,3 +10,5 @@
 .idea/
 build.gradle
 gradle/
+.idea/misc.xml
+.idea/modules.xml

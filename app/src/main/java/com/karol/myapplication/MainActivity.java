@@ -1,101 +1,139 @@
 package com.karol.myapplication;
 
+import android.Manifest;
 import android.content.Context;
-import android.content.res.ColorStateList;
-import android.content.res.Resources;
+import android.content.pm.PackageManager;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.hardware.SensorManager;
 import android.hardware.Sensor;
-import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.location.FusedLocationProviderClient;
+
+import com.google.android.gms.location.FusedLocationProviderApi;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationRequest;
+
+import java.io.FileDescriptor;
+import java.io.PrintWriter;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 
-public class MainActivity extends AppCompatActivity  {
+public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener {
 
     private SensorManager sensorManager;
     private Sensor lightSensor;
-    private LocationManager locationManager;
-    private Location previousLocation = null;
-    private float distanceBetweenNewAndOldLocation;
-    private TextView speedTextbox;
-    private FusedLocationProviderClient mFusedLocationClient;
 
+    private TextView speedTextbox;
+
+    private Location previousLocation = null;
+    private Location currentLocation = null;
+    private String mCurrentLocationUpdateTime = null;
+    private String mpreviousLocationUpdateTime = null;
+    private SimpleDateFormat sdf;
+    private Date datePreviousLocation;
+    private Date dateCurrentLocation;
+    long differenceTime = 0;
+
+    private GoogleApiClient googleApiClient;
+    private LocationRequest locationRequest;
+    private FusedLocationProviderApi locationProviderApi = LocationServices.FusedLocationApi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
+
+        /*Light sensor*/
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
+        sensorManager.registerListener(mSensorEventListener, lightSensor, SensorManager.SENSOR_DELAY_NORMAL);
+
+        /*GPS*/
+
+        sdf = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
 
         TextView drivingStatusIndicator = (TextView) findViewById(R.id.driving_status_indicator);
         drivingStatusIndicator.setText("OK");
         drivingStatusIndicator.setTextColor(getResources().getColor(R.color.driving_ok));
 
-        speedTextbox = (TextView) findViewById(R.id.speedText);
-
-<<<<<<< HEAD
+        speedTextbox = (TextView) findViewById(R.id.speed_value);
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-       /* if (!isGooglePlayServicesAvailable()) {
-            finish();
-        }
-        createLocationRequest();
-
-        GoogleApiClient googleApiClient = new GoogleApiClient.Builder(this)
+        googleApiClient = new GoogleApiClient.Builder(this)
                 .addApi(LocationServices.API)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
-                .build();*/
+                .build();
 
-        //List<Sensor> deviceSensors = sensorManager.getSensorList(Sensor.TYPE_ALL);
+        locationRequest = new LocationRequest();
+        locationRequest.setInterval(3000);
+        locationRequest.setFastestInterval(1500);
+        locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
 
+    }
+    /*
+    * END ON CREATE
+    * */
 
-        if (sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT) != null)
-        {
-            lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
-            sensorManager.registerListener(mSensorEventListener, lightSensor, SensorManager.SENSOR_DELAY_NORMAL);
-        }
-        else
-        {
-            Toast.makeText(this.getApplicationContext(),"No light sensor on this device",Toast.LENGTH_SHORT);
-        }
-
-}
-
-mFusedLocationClient.getLastLocation()
-        .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+    /**
+     * Light sensor code
+     */
+    TextView textbox;
+    private SensorEventListener mSensorEventListener = new SensorEventListener() {
         @Override
-        public void onSuccess(Location location) {
-            // Got last known location. In some rare situations this can be null.
-            if (location != null) {
-                // Logic to handle location object
-            }
+        public final void onSensorChanged(SensorEvent event) {
+            float lux = event.values[0];
+            textbox = (TextView) findViewById(R.id.visibility_value);
+            // Do something with this sensor value
+            //Toast.makeText(getApplicationContext(), "light is  " + lux, Toast.LENGTH_SHORT).show();
+            textbox.setText(String.valueOf(lux));
         }
-    });
 
-  /*  @Override
-    public void onConnected(Bundle bundle) {
-        Log.d(TAG, "onConnected - isConnected ...............: " + mGoogleApiClient.isConnected());
-        startLocationUpdates();
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+        }
+    };
+
+
+    /**
+     * End of light sensor code
+     */
+    /*
+    * Speed calculator code
+    * */
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        requestLocationUpdates();
     }
 
-    protected void startLocationUpdates() {
-        PendingResult<Status> pendingResult = LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
-        Log.d(TAG, "Location update started ..............: ");
+    private void requestLocationUpdates() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
     }
 
     @Override
@@ -104,115 +142,84 @@ mFusedLocationClient.getLastLocation()
     }
 
     @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
-        Log.d(TAG, "Connection failed: " + connectionResult.toString());
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Toast.makeText(this,connectionResult.getErrorMessage(),Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onLocationChanged(Location location) {
-        if(previousLocation!=null){
-            //distanceBetweenNewAndOldLocation = location.distanceTo(previousLocation);
-            distanceBetweenNewAndOldLocation = location.getSpeed();
-            speedTextbox.setText("Speed :" + distanceBetweenNewAndOldLocation + "m/s");
-            Toast.makeText(getApplicationContext(),"Location changed",Toast.LENGTH_SHORT);
+        previousLocation = currentLocation;
+        mpreviousLocationUpdateTime = mCurrentLocationUpdateTime;
+        currentLocation = location;
+        mCurrentLocationUpdateTime = new SimpleDateFormat("dd-M-yyyy hh:mm:ss").format(new Date(System.currentTimeMillis()));
+
+        if((mpreviousLocationUpdateTime!=null)&&(mCurrentLocationUpdateTime!=null)){
+            try {
+                datePreviousLocation = sdf.parse(mpreviousLocationUpdateTime);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                dateCurrentLocation = sdf.parse(mCurrentLocationUpdateTime);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            differenceTime = dateCurrentLocation.getTime() - datePreviousLocation.getTime();
+            differenceTime = differenceTime/1000;//millisec to seconds
+           // Toast.makeText(this, String.valueOf(differenceTime), Toast.LENGTH_SHORT).show();//Should display value arround 3
+
+        }else{
+            differenceTime = 0;
+        }
+
+        if((previousLocation==null)||(currentLocation==null)){
+            speedTextbox.setText("Calibrating...");
+        } else {
+            double distance = currentLocation.distanceTo(previousLocation);
+
+            double speed;
+            if(differenceTime!=0){
+                speed= Math.round((distance/differenceTime)*100.0)/100.0;
+            }else{
+                speed= 0.0;
+            }
+            speedTextbox.setText(Double.toString(speed));
 
         }
-    }*/
+        //Toast.makeText(this, "Speed updated", Toast.LENGTH_SHORT).show();
+    }
 
-    /*@Override
-    public void onLocationChanged(Location location) {
-        Log.d(TAG, "Firing onLocationChanged..............................................");
-        mCurrentLocation = location;
-        mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
+    @Override
+    protected void onStart() {
+        super.onStart();
+        googleApiClient.connect();
+    }
 
-    }*/
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(googleApiClient.isConnected()){
+            requestLocationUpdates();
+        }
+    }
 
-   /* @Override
+    @Override
     protected void onPause() {
         super.onPause();
-        stopLocationUpdates();
-    }
-
-    protected void stopLocationUpdates() {
-        LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, (com.google.android.gms.location.LocationListener) this);
-        Log.d(TAG, "Location update stopped .......................");
+        LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient,this);
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        if (mGoogleApiClient.isConnected()) {
-            startLocationUpdates();
-            Log.d(TAG, "Location update resumed .....................");
-        }
-    }*/
-
-
-    TextView textbox ;
-    private SensorEventListener mSensorEventListener = new SensorEventListener() {
-        @Override
-        public final void onSensorChanged(SensorEvent event) {
-            float lux = event.values[0];
-            textbox = (TextView) findViewById(R.id.lightText);
-            // Do something with this sensor value
-            //Toast.makeText(getApplicationContext(), "light is  " + lux, Toast.LENGTH_SHORT).show();
-            textbox.setText("Light Sensor value is: " + lux);
-        }
-
-        @Override
-        public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
-        }
-    };
-=======
-//        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-//        List<Sensor> deviceSensors = sensorManager.getSensorList(Sensor.TYPE_ALL);
-//
-//
-//        if (sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT) != null)
-//        {
-//            lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
-//        }
-//        else
-//        {
-//            //Snackbar.make(view, "Sorry no light lightSensor", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-//        }
-//        lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
-//        sensorManager.registerListener(mSensorEventListener, lightSensor, SensorManager.SENSOR_DELAY_NORMAL);
+    protected void onStop() {
+        super.onStop();
+        googleApiClient.disconnect();
     }
 
->>>>>>> 6314145b20c7fddb933fbd7223549a8bb783a861
-
-    /*private boolean isGooglePlayServicesAvailable() {
-        int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
-        if (ConnectionResult.SUCCESS == status) {
-            return true;
-        } else {
-            GooglePlayServicesUtil.getErrorDialog(status, this, 0).show();
-            return false;
-        }
-    }*/
-
-   /* mFusedLocationClient.getLastLocation()
-            .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-        @Override
-        public void onSuccess(Location location) {
-            // Got last known location. In some rare situations this can be null.
-            if (location != null) {
-                // Logic to handle location object
-            }
-        }
-    });*/
-
-   /* protected void createLocationRequest() {
-        mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(INTERVAL);
-        mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-    }*/
-
-
-    //LocationListener locationListener = new LocationListener() {
+    /*
+    * End of speed calculator code
+    * */
 
 };
 

@@ -4,7 +4,7 @@
     <string name="advices">Advice(s): </string>
     <string name="instructions">Instruction(s): </string>
     <string name="speed">Speed </string>
-    <string name="speed_measures"> km/h</string>
+    <string name="speed_measures"> m/s</string>
     <string name="visibility">Visibility: </string>
     <string name="noise_level">Noise level </string>
     <string name="driving_time">Driving Time </string>

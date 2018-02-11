@@ -300,7 +300,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             }
 
             differenceTime = dateCurrentLocation.getTime() - datePreviousLocation.getTime();
-            differenceTime = differenceTime/1000;//millisec to seconds
+            differenceTime = differenceTime/1000;//millisec to hours
             // Toast.makeText(this, String.valueOf(differenceTime), Toast.LENGTH_SHORT).show();//Should display value arround 3
 
         }else{
@@ -314,7 +314,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
             double speed;
             if(differenceTime!=0){
-                speed= Math.round((distance/differenceTime)*100.0)/100.0;
+                speed=(distance/differenceTime);//speed in m/s
+                speed=speed*3.6;//speed in km/h
+                speed= Math.round(speed*100.0)/100.0;//rounding up at 2 digit
             }else{
                 speed= 0.0;
             }

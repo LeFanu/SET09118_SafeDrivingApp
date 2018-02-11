@@ -4,10 +4,7 @@ android {
     signingConfigs {
     }
     compileSdkVersion 25
-<<<<<<< HEAD
-=======
     buildToolsVersion '26.0.2'
->>>>>>> fc775aaaf96215324a1014ecefd8c6e4790f1726
     defaultConfig {
         applicationId "com.karol.myapplication"
         minSdkVersion 23

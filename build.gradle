@@ -19,6 +19,10 @@ allprojects {
     repositories {
         jcenter()
         google()
+<<<<<<< HEAD
+=======
+
+>>>>>>> fc775aaaf96215324a1014ecefd8c6e4790f1726
     }
 }
 

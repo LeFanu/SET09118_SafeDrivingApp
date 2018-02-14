@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--STANDARD DAY COLOURS-->
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#11239c</color>
     <color name="colorAccent">#FF4081</color>
@@ -11,4 +12,16 @@
     <color name="status_background">#95c8ff</color>
     <color name="notifications_background">#9e9d9f</color>
     <color name="warning">#f5ff44</color>
+<!--    &lt;!&ndash;STANDARD NIGHT COLOURS&ndash;&gt;
+    <color name="colorPrimaryNight">#aebaff</color>
+    <color name="colorPrimaryDarkNight">#8d93bc</color>
+    <color name="colorAccentNight">#48222f</color>
+    <color name="driving_ok_night">#01ff5a</color>
+    <color name="driving_careful_night">#dcb5ff</color>
+    <color name="driving_bad_night">#ff5c33</color>
+    <color name="normal_text_night">#ffffff</color>
+    <color name="main_background_night">#2e2e2e</color>
+    <color name="status_background_night">#b5cdff</color>
+    <color name="notifications_background_night">#9e9d9f</color>
+    <color name="warning_night">#f5ff44</color>-->
 </resources>

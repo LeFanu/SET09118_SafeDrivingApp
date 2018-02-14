@@ -241,6 +241,69 @@
 
         </RelativeLayout>
 
+        <TextView
+            android:id="@+id/longitude"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/notifications_section"
+            android:text="Longitude: "
+            />
+        <TextView
+            android:id="@+id/latitude"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/longitude"
+            android:text="Latitude: "
+            />
+
+        <Button
+            android:id="@+id/btn_start_tracking"
+            android:layout_below="@+id/latitude"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="false"
+            android:layout_alignParentLeft="true"
+            android:text="Start Tracking" />
+
+        <Button
+            android:id="@+id/btn_stop_tracking"
+            android:layout_below="@+id/latitude"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="false"
+            android:layout_alignParentRight="true"
+            android:text="Stop Tracking" />
+
+
+
+        <ImageView
+            android:id="@+id/img_activity"
+            android:layout_below="@+id/btn_stop_tracking"
+            android:layout_width="wrap_content"
+            android:layout_height="200dp"
+            android:tint="#606060" />
+
+        <TextView
+            android:id="@+id/txt_activity"
+            android:layout_below="@+id/img_activity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textAllCaps="true"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txt_confidence"
+            android:layout_below="@+id/txt_activity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:textAllCaps="true"
+            android:textSize="14dp" />
+
 
     </RelativeLayout>
 </ScrollView>

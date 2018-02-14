@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 /**
  * Created by karol on 11/02/18.
- * Used this tutorial: https://dzone.com/articles/android-activity-recognition
+ * Used this tutorial: https://www.androidhive.info/2017/12/android-user-activity-recognition-still-walking-running-driving-etc/
  *
  */
 

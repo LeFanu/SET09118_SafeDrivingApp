@@ -16,6 +16,8 @@ import com.google.android.gms.tasks.Task;
 
 /**
  * Created by karol on 14/02/18.
+ * Used this tutorial: https://www.androidhive.info/2017/12/android-user-activity-recognition-still-walking-running-driving-etc/
+ *
  */
 
 public class BackgroundDetectedActivitiesService extends Service{

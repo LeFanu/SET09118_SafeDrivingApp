@@ -18,7 +18,7 @@
         <TextView
             android:id="@+id/driving_status_indicator"
             style="@style/MyHeadingStyle"
-            android:text="OK"
+            android:text="@string/not_driving"
             android:layout_toRightOf="@+id/driving_status"
             />
 

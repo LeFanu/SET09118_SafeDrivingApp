@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     long differenceTime = 0;
 
     private LocationRequest locationRequest;
-    private FusedLocationProviderApi locationProviderApi = LocationServices.FusedLocationApi;
+    private FusedLocationProviderApi locationProviderApi = LocationServices.FusedLocationApi; //this looks like some deprecated stuff
     private LocationManager locationManager;
     private Location previousLocation = null;
     private float distanceBetweenNewAndOldLocation;
@@ -104,9 +104,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
         TextView drivingStatusIndicator = (TextView) findViewById(R.id.driving_status_indicator);
         //@Karol: accessing Driving Status textview. Required only when on the move
-        /*TextView drivingStatusIndicator = (TextView) findViewById(R.id.driving_status_indicator);
->>>>>>> fc775aaaf96215324a1014ecefd8c6e4790f1726
-        drivingStatusIndicator.setText("OK");
+        /*drivingStatusIndicator.setText("OK");
         drivingStatusIndicator.setTextColor(getResources().getColor(R.color.driving_ok));*/
 
         speedTextbox = (TextView) findViewById(R.id.speed_value);
@@ -152,7 +150,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             }
             textbox = (TextView) findViewById(R.id.visibility_value);
             // Do something with this sensor value
-            //Toast.makeText(getApplicationContext(), "light is  " + lux, Toast.LENGTH_SHORT).show();
             textbox.setText(String.valueOf(lux));
         }
 
@@ -166,7 +163,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     /**
      * End of light sensor code
      */
-    /*
+    /**
+     * ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     * Speed calculator code
     * */
 
@@ -192,37 +190,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         String isDriving = String.valueOf(activityDetection.isDriving);
         speedTextbox.setText(isDriving);
     }
-
-
-
-    //@Karol - Extracted this method to avoid copying lines
-    /*private void registerAccelerometerListener()
-    {
-        sensorManager.registerListener(this, accelerometerSensor, SensorManager.SENSOR_DELAY_NORMAL);
-
-    }*/
-    /*
-    @Override
-    public void onSensorChanged(SensorEvent event) {
-
-        final double alpha = 0.8;
-
-        double[] gravity = new double[3];
-        gravity[0] = alpha * gravity[0] + (1 - alpha) * event.values[0];
-        gravity[1] = alpha * gravity[1] + (1 - alpha) * event.values[1];
-        gravity[2] = alpha * gravity[2] + (1 - alpha) * event.values[2];
-
-        double[] linear_acceleration = new double[3];
-        linear_acceleration[0] = event.values[0] - gravity[0];
-        linear_acceleration[1] = event.values[1] - gravity[1];
-        linear_acceleration[2] = event.values[2] - gravity[2];
-        //Log.v(TAG, "Accelerometer values are " + linear_acceleration[0] + " " + linear_acceleration[1] + " " + linear_acceleration[2]);
-    }
-
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
-    }*/
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
@@ -276,7 +243,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         PendingIntent pendingIntent = PendingIntent.getService( this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT );
         ActivityRecognition.ActivityRecognitionApi.requestActivityUpdates( googleApiClient, 3000, pendingIntent );
 
->>>>>>> fc775aaaf96215324a1014ecefd8c6e4790f1726
     }*/
 
     @Override

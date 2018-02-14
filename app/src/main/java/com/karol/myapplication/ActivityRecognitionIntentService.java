@@ -12,8 +12,6 @@ import com.google.android.gms.location.DetectedActivity;
  *
  */
 
-
-
 public class ActivityRecognitionIntentService extends IntentService {
     /**
      * Creates an IntentService.  Invoked by your subclass's constructor.
@@ -49,8 +47,8 @@ public class ActivityRecognitionIntentService extends IntentService {
             * DetectedActivity.UNKNOWN
             * DetectedActivity.TILTING
             */
-            // process
-            if (activityType == 0)
+            // used on-foot for testing to see if app works fine
+            if (activityType == 2)
             {
                 isDriving = true;
             }

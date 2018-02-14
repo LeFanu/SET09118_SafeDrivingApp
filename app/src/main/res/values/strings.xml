@@ -13,4 +13,5 @@
     <string name="reminder">!!! Remeber !!! \n Drive Safe \n Stop if you want to use your phone!!!</string>
     <string name="text_messages_received">TEXT MESSAGES RECEIVED:</string>
     <string name="not_driving_yet">Not Driving Yet</string>
+    <string name="not_driving">Not Driving</string>
 </resources>

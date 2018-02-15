@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     //Sensors properties
     private SensorManager sensorManager;
     private Sensor lightSensor;
+    private SoundMeter soundMeter;
 
     private TextView speedTextbox;
     private TextView drivingStatusIndicator;
@@ -67,6 +68,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private Date datePreviousLocation;
     private Date dateCurrentLocation;
     long differenceTime = 0;
+
+    private double noiseLevel;
+    private TextView noiseLevelText;
 
     private LocationRequest locationRequest;
     private FusedLocationProviderApi locationProviderApi = LocationServices.FusedLocationApi; //this looks like some deprecated stuff
@@ -80,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     //private PendingIntent pendingIntent;
     private GoogleApiClient googleApiClient;
     //FOR TESTING Activity Recognition
-    private         BroadcastReceiver broadcastReceiver;
+    private BroadcastReceiver broadcastReceiver;
     private Double myLatitude;
     private Double myLongitude;
     private TextView txtActivity, txtConfidence;
@@ -103,6 +107,25 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.CUPCAKE) {
             sensorManager.registerListener(mSensorEventListener, lightSensor, SensorManager.SENSOR_DELAY_NORMAL);
         }
+
+         /*
+        * Sound meter
+        * */
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED ){
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.RECORD_AUDIO}, 1);
+            return;
+        }
+        soundMeter = new SoundMeter();
+        soundMeter.start();
+
+        noiseLevelText = (TextView) findViewById(R.id.noise_value);
 
         /**
          * GPS ===============================================
@@ -174,6 +197,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         };
 
         startTracking();
+
     }
     /**
     * END ON CREATE
@@ -226,11 +250,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
         Log.e(TAG, "User activity: " + label + ", Confidence: " + confidence);
 
+        txtConfidence.setText("Confidence: " + confidence);
+
         if (confidence > Constants.CONFIDENCE) {
             txtActivity.setText(label);
-            txtConfidence.setText("Confidence: " + confidence);
             imgActivity.setImageResource(icon);
         }
+        Toast.makeText(this,"handle user activity method called",Toast.LENGTH_LONG).show();
     }
 
 
@@ -259,7 +285,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 textbox.setTextColor(ResourcesCompat.getColor(getResources(), R.color.driving_ok, null));
                 textbox.setText("Good");
             }
-
         }
 
         @Override
@@ -422,6 +447,23 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             //Toast.makeText(this, Double.toString(speed), Toast.LENGTH_SHORT).show();
         }
         Toast.makeText(this, "Speed updated", Toast.LENGTH_SHORT).show();
+
+        /**
+         * We will use this code to get on the same interval the noise level
+         */
+        noiseLevel = soundMeter.getAmplitude();
+
+        if(noiseLevel<50.0){
+            noiseLevelText.setTextColor(ResourcesCompat.getColor(getResources(), R.color.driving_ok, null));
+        }else if((noiseLevel>=50.0)&&(noiseLevel<80.0)){
+            noiseLevelText.setTextColor(ResourcesCompat.getColor(getResources(), R.color.warning, null));
+        } else {
+            noiseLevelText.setTextColor(ResourcesCompat.getColor(getResources(), R.color.driving_bad, null));
+        }
+        noiseLevelText.setText(Double.toString(noiseLevel));
+        soundMeter.stop();
+        soundMeter.start();//Restarting the sensor for next value
+
     }
 
     /*

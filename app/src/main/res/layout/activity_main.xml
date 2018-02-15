@@ -48,27 +48,50 @@
             android:padding="10sp"
             android:orientation="horizontal">
 
+            <!--Transport mode-->
+            <TextView
+                android:id="@+id/txt_activity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/transport"
+                android:textAllCaps="true"
+                android:textColor="@color/normal_text"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"/>
+
+            <TextView
+                android:id="@+id/txt_confidence"
+                android:layout_toRightOf="@+id/txt_activity"
+                android:text=""
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="80sp" />
+
             <!--Speed indicator-->
             <TextView
                 style="@style/StatusIndicators"
                 android:id="@+id/speed"
+                android:layout_below="@+id/txt_activity"
                 android:text="@string/speed"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
                 />
 
             <TextView
                 style="@style/StatusIndicators"
                 android:id="@+id/speed_value"
+                android:layout_below="@+id/txt_activity"
                 android:text="0"
                 android:layout_toRightOf="@+id/speed"
                 android:layout_centerInParent="true"
-                android:layout_alignParentTop="true"
                 android:layout_marginLeft="80sp"
                 android:textColor="@color/driving_ok"
                 />
             <TextView
                 style="@style/StatusIndicators"
+                android:layout_below="@+id/txt_activity"
                 android:layout_marginLeft="15sp"
                 android:id="@+id/speed_measures"
                 android:text="@string/speed_measures"
@@ -112,7 +135,7 @@
                 android:text="0"
                 android:layout_toRightOf="@+id/speed"
                 android:layout_centerInParent="true"
-                android:layout_marginLeft="80sp"
+                android:layout_marginLeft="100sp"
                 android:textColor="@color/driving_ok"
                 />
             <TextView
@@ -282,27 +305,6 @@
             android:layout_width="wrap_content"
             android:layout_height="200dp"
             android:tint="#606060" />
-
-        <TextView
-            android:id="@+id/txt_activity"
-            android:layout_below="@+id/img_activity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:textAllCaps="true"
-            android:textColor="@color/colorPrimary"
-            android:textSize="18dp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/txt_confidence"
-            android:layout_below="@+id/txt_activity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
-            android:textAllCaps="true"
-            android:textSize="14dp" />
 
 
     </RelativeLayout>

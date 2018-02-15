@@ -20,6 +20,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -105,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
         /**
          * GPS ===============================================
-         * */
+         **/
 
         simpleDateFormat = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
 
@@ -244,9 +245,21 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.CUPCAKE) {
                 lux = event.values[0];
             }
+
             textbox = (TextView) findViewById(R.id.visibility_value);
-            // Do something with this sensor value
-            textbox.setText(String.valueOf(lux));
+
+            if(lux<=200.0){//Speed limit in km in the UK on simple carriageway for cars
+                textbox.setTextColor(ResourcesCompat.getColor(getResources(), R.color.driving_bad, null));
+                textbox.setText("Bad");
+            } else if((lux>200.0)&&(lux<=400.0)){
+                textbox.setTextColor(ResourcesCompat.getColor(getResources(), R.color.warning, null));
+                textbox.setText("Moderate");
+            }
+            else{
+                textbox.setTextColor(ResourcesCompat.getColor(getResources(), R.color.driving_ok, null));
+                textbox.setText("Good");
+            }
+
         }
 
         @Override
@@ -273,6 +286,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
             return;
         }
         LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
@@ -282,7 +297,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         activityRecognition = ActivityRecognition.getClient(this);
 
         String isDriving = String.valueOf(activityDetection.isDriving);
-        speedTextbox.setText(isDriving);
+       // speedTextbox.setText(isDriving);
     }
 
     @Override
@@ -297,7 +312,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         drivingStatusIndicator = (TextView) findViewById(R.id.driving_status_indicator);
         //@Karol: accessing Driving Status textview. Required only when on the move
         drivingStatusIndicator.setText(activityDetection.activityRecognitionValue);
-        drivingStatusIndicator.setTextColor(getResources().getColor(R.color.driving_ok));
+        drivingStatusIndicator.setTextColor(ResourcesCompat.getColor(getResources(), R.color.driving_ok, null));
     }
 
     @Override
@@ -397,10 +412,16 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             }else{
                 speed= 0.0;
             }
+
+            if(speed>=96.0){//Speed limit in km in the UK on simple carriageway for cars
+                speedTextbox.setTextColor(ResourcesCompat.getColor(getResources(), R.color.driving_bad, null));
+            }else{
+                speedTextbox.setTextColor(ResourcesCompat.getColor(getResources(), R.color.driving_ok, null));
+            }
             speedTextbox.setText(Double.toString(speed));
             //Toast.makeText(this, Double.toString(speed), Toast.LENGTH_SHORT).show();
         }
-        //Toast.makeText(this, "Speed updated", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Speed updated", Toast.LENGTH_SHORT).show();
     }
 
     /*
@@ -419,7 +440,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         Intent intent = new Intent(MainActivity.this, BackgroundDetectedActivitiesService.class);
         stopService(intent);
         drivingStatusIndicator.setText("Tracking stopped");
-
     }
 }
 
